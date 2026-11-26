@@ -44,8 +44,8 @@ MAKEFUN_OUTPUT_DIR=out python3 main.py
 `main.py` uses only the Python standard library and no network. It
 validates the bundled image before delivering it: file size, PNG
 chunk structure with a CRC32 check on every chunk, IHDR-first and
-IEND-last ordering, the 1024-pixel side limit, and then an atomic
-copy whose SHA-256 is verified against the source.
+IEND-last ordering, the 1024-pixel side limit, and then a plain
+in-place copy whose SHA-256 is verified against the source.
 
 ## Sources
 

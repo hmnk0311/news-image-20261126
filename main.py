@@ -11,9 +11,9 @@ the bytes form a complete image within the contest limits:
   at most 1024 by 1024 pixels,
 * a JPEG starts with SOI and ends with the EOI marker.
 
-Delivery is atomic: the image is written to a temporary file in the
-destination directory, its SHA-256 is compared with the source, and
-only then is it renamed to ``entry.png``.
+Delivery is plain and in place: the image is written straight to
+``entry.png`` in the destination directory, then read back and its
+SHA-256 is compared with the source; a mismatch removes the copy.
 """
 
 from __future__ import annotations
@@ -22,7 +22,6 @@ import hashlib
 import os
 import struct
 import sys
-import tempfile
 import zlib
 from pathlib import Path
 
@@ -130,19 +129,18 @@ def deliver(source: Path, destination_dir: Path) -> Path:
     digest = hashlib.sha256(data).hexdigest()
     destination_dir.mkdir(parents=True, exist_ok=True)
     target = destination_dir / "entry.png"
-    fd, tmp_name = tempfile.mkstemp(dir=destination_dir, prefix=".entry-")
-    try:
-        with os.fdopen(fd, "wb") as handle:
-            handle.write(data)
-            handle.flush()
-            os.fsync(handle.fileno())
-        written = Path(tmp_name).read_bytes()
-        if hashlib.sha256(written).hexdigest() != digest:
-            raise EntryError("written copy does not match source SHA-256")
-        os.replace(tmp_name, target)
-    except BaseException:
-        Path(tmp_name).unlink(missing_ok=True)
-        raise
+    # Write the target directly, in place: the output folder must hold
+    # nothing but entry.png at every moment of the run, and a plain
+    # open() gives the file ordinary 0644 permissions that any reader
+    # of the output folder can open.
+    with open(target, "wb") as handle:
+        handle.write(data)
+        handle.flush()
+        os.fsync(handle.fileno())
+    written = target.read_bytes()
+    if hashlib.sha256(written).hexdigest() != digest:
+        target.unlink(missing_ok=True)
+        raise EntryError("written copy does not match source SHA-256")
     print(f"delivered {target} ({description}, {len(data)} bytes, sha256 {digest})")
     return target
 
