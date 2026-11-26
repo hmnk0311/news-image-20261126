@@ -1,8 +1,8 @@
 # THE THURSDAY GLOBE — news-image-20261126
 
-[![Competition](https://img.shields.io/badge/make.fun-news--image--20261126-blue)](https://make.fun/bounty/news-image-20261126)
-[![Format](https://img.shields.io/badge/image-1024%C3%971024%20PNG-green)](#the-image)
-[![Runtime](https://img.shields.io/badge/python-3.13%20stdlib%20only-yellow)](#running-it)
+[![make.fun · news-image-20261126](https://make.fun/badge/news-image-20261126.svg)](https://make.fun/bounty/news-image-20261126?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261126)
+[![rank](https://make.fun/badge/news-image-20261126/hmnk0311/news-image-20261126/rank.svg)](https://make.fun/bounty/news-image-20261126/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261126)
+[![reward](https://make.fun/badge/news-image-20261126/hmnk0311/news-image-20261126/reward.svg)](https://make.fun/bounty/news-image-20261126?utm_source=github&utm_medium=readme&utm_campaign=news-image-20261126)
 
 One front page for Thursday 26 November 2026: **36 stories,
 6 continents, one page and a map.**
